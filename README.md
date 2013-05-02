@@ -5,7 +5,7 @@ The Scroll observer helps you to create interactions if you reached a position o
 ## Example with int value##
 
 ```javascript
-<script src="files/jsupmycontao/js/ScrollObserver.js"></script>
+<script src="ScrollObserver.js"></script>
 <script>
     window.addEvent('domready', function() {
         new ScrollObserver(this, 500, {
@@ -25,7 +25,7 @@ The Scroll observer helps you to create interactions if you reached a position o
 ## Example with element##
 
 ```javascript
-<script src="files/jsupmycontao/js/ScrollObserver.js"></script>
+<script src="ScrollObserver.js"></script>
 <script>
     window.addEvent('domready', function() {
         new ScrollObserver(this, $('nav-main'), {
