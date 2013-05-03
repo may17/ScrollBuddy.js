@@ -37,8 +37,6 @@ var ScrollObserver = new Class({
         this.scrollElement = item;
         this.coord = this._defineCoordinate(coord) + this.options.offset;
 
-        console.log(this.coord);
-
         this.scrollElement.addEvent('scroll', function() {
             var scroll = self.getMethodDirection(this, 'getScroll');
             if(scroll >= self.coord) {
