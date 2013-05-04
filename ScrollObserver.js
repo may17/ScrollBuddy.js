@@ -18,10 +18,11 @@ var ScrollObserver = new Class({
     options: {
         direction: 'y',
         offset: 0
-      /**
-       * callback
-       * onPositionEnter
-       */
+        /**
+         * callback
+         * onPositionEnter
+         * onPositionLeave
+         */
     },
 
     /**
@@ -31,17 +32,22 @@ var ScrollObserver = new Class({
      * @param options
      */
     initialize: function(item, coord, options) {
-        var self = this;
+        var self = this,
+            scroll;
 
         this.setOptions(options);
         this.scrollElement = item;
         this.coord = this._defineCoordinate(coord) + this.options.offset;
+        var isEntered = false;
 
-        this.scrollElement.addEvent('scroll', function() {
-            var scroll = self.getMethodDirection(this, 'getScroll');
-            if(scroll >= self.coord) {
+        this.scrollElement.addEvent('scroll', function(event) {
+
+            scroll = self.getMethodDirection(this, 'getScroll');
+            if(scroll >= self.coord && !isEntered) {
+                isEntered++;
                 self.positionEnter();
-            } else if(scroll< self.coord) {
+            } else if(scroll < self.coord && isEntered) {
+                isEntered--;
                 self.positionLeave();
             }
         });
@@ -55,9 +61,9 @@ var ScrollObserver = new Class({
      */
     getMethodDirection: function(el, type) {
         if(type === 'getScroll') {
-            return this.bindDirectionWithItem(el.getScroll());
+            return this._bindDirectionWithItem(el.getScroll());
         } else if(type === 'getPosition') {
-            return this.bindDirectionWithItem(el.getPosition());
+            return this._bindDirectionWithItem(el.getPosition());
         }
     },
 
@@ -65,7 +71,7 @@ var ScrollObserver = new Class({
      * check direction and return int
      * @param object
      */
-    bindDirectionWithItem: function(item) {
+    _bindDirectionWithItem: function(item) {
         if(this.options.direction === 'y') {
             return item.y;
         } else if(this.options.direction === 'x') {
