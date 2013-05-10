@@ -34,7 +34,7 @@ var ScrollBuddy = new Class({
 
         this.setOptions(options);
         this.scrollElement = this.options.scrollContainer || window;
-        this.scrollItem = coord;
+        this.item = coord;
         this.coordStart = this._getPositionByType('start') + this.options.offset.top;
         this.coordStop = this._getPositionByType('stop') + this.options.offset.bottom;
         var isEntered = false;
@@ -47,17 +47,17 @@ var ScrollBuddy = new Class({
 
             if(self._isBetween(scroll) && !isEntered) {
                 isEntered++;
-                self.positionEnter();
+                self.enter();
             } else if(!self._isBetween(scroll) && isEntered) {
                 isEntered--;
-                self.positionLeave();
+                self.leave();
             }
         });
     },
 
     _isBetween: function(scrolledSize) {
         return ( (scrolledSize >= this.coordStart) && (scrolledSize < this.coordStop) )
-    }.protect(),
+    },
 
     /**
      * get a method with direction
@@ -74,10 +74,10 @@ var ScrollBuddy = new Class({
     /**
      * check the type
      * @param mixed coord
-     * TODO Refactore this ugly ry construct
+     * TODO Refactore this ugly p.o.c construct
      */
     _getPositionByType: function(type) {
-        var coord = this.scrollItem;
+        var coord = this.item;
 
         type = type || false;
 
@@ -104,7 +104,8 @@ var ScrollBuddy = new Class({
             if(type === 'stop' && !this.options.autoHeight) {
                 return 10000000;
             } else if(type === 'stop' && this.options.autoHeight){
-                return this.getMethodDirection(coord, 'getCoordinates', 'bottom');
+                var calcCoords = coord.getCoordinates();
+                return calcCoords.top + calcCoords.height;
             } else if(type === 'start') {
                 return this.getMethodDirection(coord, 'getPosition');
             }
@@ -119,16 +120,15 @@ var ScrollBuddy = new Class({
     /**
      * callback onEnter
      */
-    positionEnter: function() {
-        this.fireEvent('positionEnter', [this]);
-        console.log('fgdg');
+    enter: function() {
+        this.fireEvent('enter', [this.item, this]);
     },
 
     /**
      * callback onLeave
      */
-    positionLeave: function() {
-        this.fireEvent('positionLeave', [this]);
+    leave: function() {
+        this.fireEvent('leave', [this.item, this]);
     }
 });
 
