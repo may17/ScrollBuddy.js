@@ -1,4 +1,4 @@
-# mootools-ScrollObserver #
+# ScrollBuddy.js #
 
 The Scroll observer helps you to create interactions if you reached a position on a page. For example, you like to show some content when the user has scolled down for 600 pixels.
 
@@ -6,50 +6,52 @@ The Scroll observer helps you to create interactions if you reached a position o
 
 * direction - Set the direction of Scroll bar. Accepts 'x' and 'y'. Default to 'y'.
 * offset - Set an offest. Default to 0. Must be an integer! It`s posible to set negative values.
+* autoHeight - get the start and end coordinates by element height.
 
 ## Options ##
 
-### positionEnter ###
+### enter ###
 
 (function) Function to execute when position is entered.
 
 #### Signature ####
 
 ```javascript
-onPositionEnter(instance)
+onEnter(elmn, instance)
 ```
 
 #### Arguments ####
 
+* elmn - (element) the used element
 * instance - (object) the class instance
 
-### positionLeave ###
+### leave ###
 
 (function) Function to execute when position is entered.
 
 #### Signature ####
 
 ```javascript
-onPositionEnter(instance)
+onLeave(elmn, instance)
 ```
 
 #### Arguments ####
-
+* elmn - (element) the used element
 * instance - (object) the class instance
 
 ## Example with int value##
 
 ```javascript
-<script src="ScrollObserver.js"></script>
+<script src="ScrollBuddy.js"></script>
 <script>
     window.addEvent('domready', function() {
-        new ScrollObserver(this, 500, {
+        new ScrollBuddy(500, {
 
-            onPositionEnter: function() {
+            onEnter: function() {
               // fired after 500 scrolled pixels
             },
 
-            onPositionLeave: function() {
+            onLeave: function() {
               // fired before 500 pixels are reached
             }
         });
@@ -63,13 +65,13 @@ onPositionEnter(instance)
 <script src="ScrollObserver.js"></script>
 <script>
     window.addEvent('domready', function() {
-        new ScrollObserver(this, $('nav-main'), {
+        $('main').scrollBuddy({
 
-            onPositionEnter: function() {
+            onEnter: function() {
               // fired when element with id main is reached
             },
 
-            onPositionLeave: function() {
+            onLeave: function() {
               // fired before element with id main is reached
             }
         });
